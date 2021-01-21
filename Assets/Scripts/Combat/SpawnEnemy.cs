@@ -24,7 +24,9 @@ public class SpawnEnemy : MonoBehaviour
     }
     
     void Spawn()
-    {
+    {        
         var Enem = Instantiate(Enemy, Spawner.position, Quaternion.identity);
+        var rnd = Random.Range(0, 1000);
+        Enem.name = $"Enemy#{rnd}";
     }
 }
