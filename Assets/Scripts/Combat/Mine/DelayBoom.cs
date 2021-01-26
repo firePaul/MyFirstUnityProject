@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DelayBoom : MonoBehaviour, ITakeDamage
+public class DelayBoom : MonoBehaviour
 {
-    [SerializeField] private int hp = 60;
     [SerializeField] private int damage = 20;
     [SerializeField] private float delay = 1f;
     private List<Collider> targets = new List<Collider>();
@@ -35,7 +34,7 @@ public class DelayBoom : MonoBehaviour, ITakeDamage
             {
                 someone.gameObject.GetComponent<ITakeDamage>().TakeDamage(damage);
             }
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject, 0);
         }
         damagedone = true;
     }
@@ -43,17 +42,5 @@ public class DelayBoom : MonoBehaviour, ITakeDamage
     private void OnTriggerExit(Collider other)
     {
         targets.Remove(other);
-    }
-    public void TakeDamage(int damage)
-    {
-        hp -= damage;
-        if (hp <= 0)
-        {
-            Death();
-        }
-    }
-    private void Death()
-    {
-        Destroy(gameObject, 0);
     }
 }

@@ -11,7 +11,8 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     [SerializeField] private Transform bulletStartPosition = null;
     [SerializeField] private GameObject DelayMine = null;
     [SerializeField] private Transform minePlacePosition = null;
-    public static string key = null;
+    
+    public static List<string> keys = new List<string>();
 
     private bool fire = false;
     private bool mine = false;
@@ -56,16 +57,16 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     private void Fire()
     {
         fire = false;
-        var bul = Instantiate(bullet, bulletStartPosition.position, this.gameObject.transform.GetChild(1).rotation);
+        Instantiate(bullet, bulletStartPosition.position, this.gameObject.transform.GetChild(1).rotation);
     }
     private void PlaceMine()
     {
         mine = false;
-        var DelMine = Instantiate(DelayMine, minePlacePosition.position, Quaternion.identity);
+        Instantiate(DelayMine, minePlacePosition.position, Quaternion.identity);
     }
 
     public void TakeKey(string tkey)
     {
-        key = $"{tkey}";
+        keys.Add(tkey);
     }
 }
