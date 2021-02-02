@@ -11,11 +11,18 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     [SerializeField] private Transform bulletStartPosition = null;
     [SerializeField] private GameObject DelayMine = null;
     [SerializeField] private Transform minePlacePosition = null;
+    private Rigidbody rb;
     
     public static List<string> keys = new List<string>();
 
     private bool fire = false;
     private bool mine = false;
+    private bool jump = false;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     void FixedUpdate()
     {
         if (bullets == 0)  fire = false;
@@ -32,6 +39,11 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
         if (Input.GetKeyDown(KeyCode.G))
         {
             mine = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !jump)
+        {
+            jump = true;
+            Jump();
         }
     }
     public void TakeDamage(int damage)
@@ -64,9 +76,17 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
         mine = false;
         Instantiate(DelayMine, minePlacePosition.position, Quaternion.identity);
     }
-
     public void TakeKey(string tkey)
     {
         keys.Add(tkey);
+    }
+    void Jump()
+    {
+        rb.AddForce(Vector3.up*400, ForceMode.Impulse);
+        Invoke("Jumpdelay",1f);
+    }
+    void Jumpdelay()
+    {
+        jump = false;
     }
 }

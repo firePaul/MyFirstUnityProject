@@ -15,6 +15,6 @@ public class MineHP : MonoBehaviour, ITakeDamage
     }
     private void Death()
     {
-        Destroy(transform.parent.gameObject, 0);
+        Destroy(gameObject, 0);
     }
 }
