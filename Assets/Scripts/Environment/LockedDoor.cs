@@ -24,8 +24,11 @@ public class LockedDoor : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-            if (PlayerStats.key == dkey)
-            startOpen = true;
+            if (PlayerStats.keys.Contains(dkey))
+            {
+                startOpen = true;
+                PlayerStats.keys.Remove(dkey);
+            }
         }
     }
 
