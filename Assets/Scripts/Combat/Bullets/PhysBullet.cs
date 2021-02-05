@@ -25,6 +25,11 @@ public class PhysBullet : MonoBehaviour
             other.GetComponent<ITakeDamage>().TakeDamage(damage / 5);
             Destroy(gameObject);
         }
+        if (other.gameObject.CompareTag("RobotEnemy"))
+        {
+            other.GetComponentInParent<ITakeDamage>().TakeDamage(damage);
+            Destroy(gameObject);
+        }
         if (other.gameObject.CompareTag("Enemy"))
         {
             other.GetComponent<ITakeDamage>().TakeDamage(damage);

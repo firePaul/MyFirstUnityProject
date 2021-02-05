@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMouseMovement : MonoBehaviour
+public class PlayerMouseMovement : MonoBehaviour, ISpeed
 {
     [SerializeField] private float MouseSensitivity = 1200f;
     [SerializeField] private Transform PlayerBody;
     [SerializeField] private float speed = 2;
+    private float basespeed;
 
     private Vector3 direction = Vector3.zero;
     float xRotation = 0f;
@@ -19,6 +20,7 @@ public class PlayerMouseMovement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        basespeed = speed;
     }
     void Update()
     {
@@ -33,7 +35,15 @@ public class PlayerMouseMovement : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         PlayerBody.Rotate(Vector3.up * mouseX);
-
-
+    }
+    public void SpeedChange(float speedmult, float duration)
+    {
+        speed = basespeed;
+        speed = speed * speedmult;
+        Invoke("ResetSpeed", duration);
+    }
+    private void ResetSpeed()
+    {
+        speed = basespeed;
     }
 }
