@@ -7,7 +7,8 @@ public class PlayerMouseMovement : MonoBehaviour, ISpeed
     [SerializeField] private float MouseSensitivity = 1200f;
     [SerializeField] private Transform PlayerBody;
     [SerializeField] private float speed = 2;
-    private float basespeed;
+    private float _basespeed;
+    private Animator _anibody;
 
     private Vector3 direction = Vector3.zero;
     float xRotation = 0f;
@@ -16,11 +17,20 @@ public class PlayerMouseMovement : MonoBehaviour, ISpeed
     {
         var s = speed * direction * Time.fixedDeltaTime;
         GameObject.Find("Player").transform.Translate(s);
+        if (s != Vector3.zero)
+        {
+            _anibody.SetBool("Walk", true);
+        }
+        else
+        {
+            _anibody.SetBool("Walk", false);
+        }
     }
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        basespeed = speed;
+        _basespeed = speed;
+        _anibody = gameObject.GetComponentInParent<Animator>();
     }
     void Update()
     {
@@ -38,12 +48,12 @@ public class PlayerMouseMovement : MonoBehaviour, ISpeed
     }
     public void SpeedChange(float speedmult, float duration)
     {
-        speed = basespeed;
+        speed = _basespeed;
         speed = speed * speedmult;
         Invoke("ResetSpeed", duration);
     }
     private void ResetSpeed()
     {
-        speed = basespeed;
+        speed = _basespeed;
     }
 }

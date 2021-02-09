@@ -9,8 +9,11 @@ public class Heal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<ITakeDamage>().TakeDamage(-heal);
-            Destroy(gameObject);
+            if (PlayerStats.curhp < PlayerStats.maxhp)
+            {
+                other.GetComponent<ITakeDamage>().TakeDamage(-heal);
+                Destroy(gameObject);
+            }
         }        
     }
 }

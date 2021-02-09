@@ -6,7 +6,7 @@ public class SpawnEnemy : MonoBehaviour
 {
     [SerializeField] private GameObject Enemy = null;
     [SerializeField] private Transform Spawner = null;
-    [SerializeField] private int SpawnTime = 30;
+    [SerializeField] private int SpawnTime = 60;
     [SerializeField] private GameObject Waypoints = null;
     private List<int> points;
     private List<Transform> waypoints;

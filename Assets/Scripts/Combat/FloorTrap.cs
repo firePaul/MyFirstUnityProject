@@ -12,7 +12,7 @@ public class FloorTrap : MonoBehaviour
         {
             Vector3 direction = other.gameObject.transform.position - gameObject.transform.position;
             other.gameObject.GetComponent<ITakeDamage>().TakeDamage(damage);
-            other.attachedRigidbody.AddForce(new Vector3(direction.x, direction.y * 400, direction.z * 250), ForceMode.Impulse);
+            other.attachedRigidbody.AddForce(new Vector3(direction.x*200, direction.y * 200, direction.z * 200), ForceMode.Impulse);
         }
     }
 }

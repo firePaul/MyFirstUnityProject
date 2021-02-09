@@ -8,9 +8,9 @@ public class Boost : MonoBehaviour
     [SerializeField] private float duration = 10;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("MainCamera"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<ISpeed>().SpeedChange(speedmult,duration);
+            other.gameObject.GetComponentInChildren<ISpeed>().SpeedChange(speedmult,duration);
             Destroy(gameObject);
         }
     }

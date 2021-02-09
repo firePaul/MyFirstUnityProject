@@ -22,7 +22,7 @@ public class EnemyPatrol : MonoBehaviour, ITakeDamage, IPatrol
     private int point=0;
     private bool drop = false;
     private RaycastHit rayHit;
-    private float sigthdist = 25f;
+    private float sigthdist = 40f;
     private bool patrol=false;
     private bool fire = false;
 
@@ -44,16 +44,19 @@ public class EnemyPatrol : MonoBehaviour, ITakeDamage, IPatrol
 
     public void Update()
     {
-        if (Physics.Raycast(transform.position, player.transform.position - transform.position, out rayHit, sigthdist))
+        var rayVector = transform.position;
+        rayVector.y += 2f;
+        if (Physics.Raycast(rayVector, player.transform.position - rayVector, out rayHit, sigthdist))
         {
+            //Debug.DrawRay(rayVector, player.transform.position - rayVector, Color.red);
             if (rayHit.collider.gameObject.tag == "Player")
             {
                 patrol = false;                
-                enemy.stoppingDistance = 10f;
+                enemy.stoppingDistance = 20f;
+                enemy.transform.LookAt(player.transform);
                 enemy.SetDestination(player.transform.position);
-                gameObject.transform.LookAt(player.transform);
-                gameObject.transform.GetChild(6).LookAt(player.transform);
-                player = rayHit.collider.gameObject;                
+                player = rayHit.collider.gameObject;
+                //Debug.DrawRay(rayVector, player.transform.position - rayVector, Color.green);
             }
             if (!patrol && rayHit.collider.gameObject.tag != "Player")
             {
@@ -83,7 +86,7 @@ public class EnemyPatrol : MonoBehaviour, ITakeDamage, IPatrol
     void PatrolStart()
     {
         fire = false;
-        enemy.stoppingDistance = 1f;
+        enemy.stoppingDistance = 5f;
         patrol = true;
     }
 

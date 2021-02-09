@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6457243588347742751}
   - component: {fileID: 1296314514005612848}
   - component: {fileID: 3307979471702298}
+  - component: {fileID: 5184688785167577966}
   m_Layer: 0
   m_Name: HPBox
   m_TagString: Heal
@@ -110,3 +111,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heal: 20
+--- !u!95 &5184688785167577966
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4799782379496238026}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 55bbecdcb1951ed4495e5a16906b5de3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

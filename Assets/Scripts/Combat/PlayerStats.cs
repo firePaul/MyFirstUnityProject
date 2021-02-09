@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
 {
-    [SerializeField] private int hp = 100;
-    [SerializeField] private int bullets = 60;
-    [SerializeField] private int mines = 10;
+    public static int maxhp = 300;
+    public static int maxammo = 40;
+    [SerializeField] private int mines = 5;
     [SerializeField] private GameObject bullet = null;
     [SerializeField] private Transform bulletStartPosition = null;
     [SerializeField] private GameObject DelayMine = null;
     [SerializeField] private Transform minePlacePosition = null;
     private Rigidbody rb;
-    
+    private Animator _anibody;
+
+    public HpBar hpbar;
+    public AmmoBar ambar;
+    public static int curammo;
+    public static int curhp;
+
     public static List<string> keys = new List<string>();
 
     private bool fire = false;
@@ -22,12 +28,17 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        curhp = maxhp;
+        hpbar.SetMaxHP(maxhp);
+        curammo = maxammo;
+        ambar.SetMaxAmmo(maxammo);
+        _anibody = gameObject.GetComponentInParent<Animator>();
     }
     void FixedUpdate()
     {
-        if (bullets == 0)  fire = false;
+        if (curammo == 0)  fire = false;
         if (mines == 0)  mine = false;
-        if (fire) { Fire(); bullets -= 1; }
+        if (fire) { Fire(); curammo -= 1; ambar.SetAmmo(curammo); }
         if (mine) { PlaceMine(); mines -= 1; }
     }
     void Update()
@@ -35,6 +46,7 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
         if (Input.GetMouseButtonDown(0))
         {
             fire = true;
+            //_anibody.SetTrigger("Fire 0");
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
@@ -47,20 +59,30 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
         }
     }
     public void TakeDamage(int damage)
-    {
-        hp -= damage;
-        if (hp <= 0)
+    {        
+        curhp -= damage;
+        if (curhp > maxhp)
+        {
+            curhp = maxhp;
+        }
+        hpbar.SetHP(curhp);
+        if (curhp <= 0)
         {
             Death();
         }
     }
     private void Death()
     {
-        Destroy(gameObject, 1);
+        gameObject.SetActive(false);
     }
     public void BulletChange(int ammobullet)
-    {
-        bullets += ammobullet;
+    {              
+        curammo += ammobullet;
+        if (curammo > maxammo)
+        {
+            curammo = maxammo;
+        }
+        ambar.SetAmmo(curammo);
     }
     public void MineChange(int ammomine)
     {
@@ -68,7 +90,7 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     }
     private void Fire()
     {
-        fire = false;
+        fire = false;       
         Instantiate(bullet, bulletStartPosition.position, this.gameObject.transform.GetChild(1).rotation);
     }
     private void PlaceMine()

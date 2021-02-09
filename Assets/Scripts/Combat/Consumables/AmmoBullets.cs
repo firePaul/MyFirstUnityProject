@@ -9,8 +9,11 @@ public class AmmoBullets : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<IAmmo>().BulletChange(AmmoBul);
-            Destroy(gameObject);
-        }       
+            if (PlayerStats.curammo < PlayerStats.maxammo)
+            {
+                other.GetComponent<IAmmo>().BulletChange(AmmoBul);
+                Destroy(gameObject);
+            }
+        }
     }
 }
