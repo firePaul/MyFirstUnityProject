@@ -6,7 +6,7 @@ public class PlayerMouseMovement : MonoBehaviour
 {
     [SerializeField] private float MouseSensitivity = 1200f;
     [SerializeField] private Transform PlayerBody;
-    [SerializeField] private float speed = 2;    
+    [SerializeField] private float speed = 2;
 
     private Vector3 direction = Vector3.zero;
     float xRotation = 0f;
@@ -33,6 +33,7 @@ public class PlayerMouseMovement : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         PlayerBody.Rotate(Vector3.up * mouseX);
-    }
 
+
+    }
 }

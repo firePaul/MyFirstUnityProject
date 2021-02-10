@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DelayBoom : MonoBehaviour, ITakeDamage
+public class DelayBoom : MonoBehaviour
 {
-    [SerializeField] private int hp = 60;
     [SerializeField] private int damage = 20;
-    [SerializeField] private float delay = 1f;
+    [SerializeField] private float delay = 0.5f;
     private List<Collider> targets = new List<Collider>();
     bool damagedone = false;
 
@@ -33,9 +32,11 @@ public class DelayBoom : MonoBehaviour, ITakeDamage
         {
             foreach (Collider someone in targets)
             {
+                Vector3 direction = someone.gameObject.transform.position - gameObject.transform.position;
                 someone.gameObject.GetComponent<ITakeDamage>().TakeDamage(damage);
+                someone.attachedRigidbody.AddForce(new Vector3(direction.x, direction.y*400, direction.z*250), ForceMode.Impulse);
             }
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject, 0);
         }
         damagedone = true;
     }
@@ -43,17 +44,5 @@ public class DelayBoom : MonoBehaviour, ITakeDamage
     private void OnTriggerExit(Collider other)
     {
         targets.Remove(other);
-    }
-    public void TakeDamage(int damage)
-    {
-        hp -= damage;
-        if (hp <= 0)
-        {
-            Death();
-        }
-    }
-    private void Death()
-    {
-        Destroy(gameObject, 0);
     }
 }

@@ -11,10 +11,18 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     [SerializeField] private Transform bulletStartPosition = null;
     [SerializeField] private GameObject DelayMine = null;
     [SerializeField] private Transform minePlacePosition = null;
-    public static string key = null;
+    private Rigidbody rb;
+    
+    public static List<string> keys = new List<string>();
 
     private bool fire = false;
     private bool mine = false;
+    private bool jump = false;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     void FixedUpdate()
     {
         if (bullets == 0)  fire = false;
@@ -31,6 +39,11 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
         if (Input.GetKeyDown(KeyCode.G))
         {
             mine = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !jump)
+        {
+            jump = true;
+            Jump();
         }
     }
     public void TakeDamage(int damage)
@@ -56,16 +69,24 @@ public class PlayerStats : MonoBehaviour, ITakeDamage, IAmmo, IKey
     private void Fire()
     {
         fire = false;
-        var bul = Instantiate(bullet, bulletStartPosition.position, this.gameObject.transform.GetChild(1).rotation);
+        Instantiate(bullet, bulletStartPosition.position, this.gameObject.transform.GetChild(1).rotation);
     }
     private void PlaceMine()
     {
         mine = false;
-        var DelMine = Instantiate(DelayMine, minePlacePosition.position, Quaternion.identity);
+        Instantiate(DelayMine, minePlacePosition.position, Quaternion.identity);
     }
-
     public void TakeKey(string tkey)
     {
-        key = $"{tkey}";
+        keys.Add(tkey);
+    }
+    void Jump()
+    {
+        rb.AddForce(Vector3.up*400, ForceMode.Impulse);
+        Invoke("Jumpdelay",1f);
+    }
+    void Jumpdelay()
+    {
+        jump = false;
     }
 }
