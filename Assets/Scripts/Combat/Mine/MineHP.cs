@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, ITakeDamage
+public class MineHP : MonoBehaviour, ITakeDamage
 {
-    [SerializeField] private int hp = 100;
-
+    [SerializeField] private int hp = 50;
     public void TakeDamage(int damage)
     {
         hp -= damage;
@@ -17,6 +15,6 @@ public class Enemy : MonoBehaviour, ITakeDamage
     }
     private void Death()
     {
-        Destroy(gameObject, 0);
+        Destroy(transform.parent.gameObject, 0);
     }
 }
